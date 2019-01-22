@@ -1,0 +1,55 @@
+项目实战2
+
+1 如果不知道是创建用例目录还是用例文件，可以先创建文件，后面再放到目录中
+
+2 如果要查找用例，右键-find in path，输入编号即可
+
+3 RF中，要注意各种空格。。
+
+4自动化测试中，每个用例不要依赖别的用例创建的数据环境，只能依赖套件目录创建的数据环境，或者套件文件的初始化。
+
+5 python：count函数，判断一个元素在列表中出现的次序。
+
+6 Library    cases/c00003.py    with name  c00003
+with name 的用法，给每个导入的库命名，避免库里面的关键字同名。
+
+7 如果RF中复杂的表达，可以先用 evaluate 赋值给变量，再作为参数传递给python的关键字。
+
+
+
+添加班级002
+${ret1}=  add school class
+should be true  $ret1['retcode']=0
+
+${ret2}=  list school class 1
+${retlist}=  evaluate  $ret2['retlist']
+
+should be true  {"name":"2班", "invitedcode":$ret1['invitecode'],"studentlimit":60,"studentnumber":0,"grade_name":"七年级",id":$ret1['id'],"teacherList":[]} in $retList
+
+[Teardown]
+
+
+自己实现 检查点关键字：
+	如何表示检查点通过还是不通过？
+	如果不通过，就抛出异常：
+	if not in：
+	    raise Exception（'班级列表里面没有该班级！'）
+	
+	抛出异常：
+		用assert
+		
+		assert item not in classlist, '班级列表里面没有该班级'
+	
+	
+	抛出异常，都会被RF捕获，不会影响后面用例的执行。
+	
+	
+def classlist_should_contain(self, classlist, classname, gradename, invitecode,studentlimit,studentnumber,classid):
+
+	if item not in retList:
+		raise Exception('')
+		
+if occurTimes ！= expectedtimes：
+	raise Exception(
+	f'班级列表包含了{occurTimes}次指定信息，期望包含{expectedtimes}次'
+	)

@@ -1,0 +1,81 @@
+项目实战3
+
+用例编号的技巧：
+自动化：
+	需要用例编号，对手工用例和自动化用例一一对应。
+	顺序编号：忘记用例，加上去后，显得很乱，不容易插入
+	
+	按照功能点，留一定区域，方便后面插入。
+	
+单独执行某个用例：
+	robot --pythonpath . --test *0001 tc
+	
+用例执行，有的时候pass，有的时候fail，就是初始化清除没有做好。
+
+执行的时候的顺序，同一级目录里面，是按照字母顺序来的。英文字母的编号比中文小，先执行。
+
+关于数据环境的经验：
+	--任何一个测试单元 ，执行结束时，必须要和执行前的数据环境一致。
+	
+	--测试套件目录 执行结束后，要和执行前一致。
+	
+	--测试套件文件 执行结束后，要和执行前一致。
+	--测试套件用例 执行结束后，要和执行前 一致。
+	
+	
+两种方法：
+	方法一：
+		创建用户关键字，封装初始化动作。把结果保存在全局变量中。创建用户关键字，封装初始化动作。把结果保存在全局变量中。
+		
+		
+		***Keywords***
+		Suite setup action
+			${ret}=   add school class   1  1班  60
+			set global varible  ${suite_g7c1_classid}  &{ret}[id]
+		
+		
+		***Settings***
+		Library  
+		
+		Suite Setup  Suite setup action
+		Suite Teardown  delete_school_class  {suite_g7c1_classid}
+		
+		
+		
+	
+	方法二：
+		在python的方法中，实现  提供一个参数  把这个参数 写到RF的 全局变量中去。
+		
+		是有这么一个方法的。
+		做法：
+		python中导入：from robot.libraries.BuiltIn import BuiltIn
+		
+		在python函数中，这个要 传递 RF全局变量的参数需要设置一个默认值，因为正常情况下可能不需要设置全局变量。此时设置默认值为None。
+		
+		函数中的形参是 idSaveName
+		
+		语句：		BuiltIn().set_global_variable('${%s}' % idSaveName, bodyDict['id'])
+		
+		
+		注意，是BuiltIn().  不是BuiltIn.
+		
+		RF在调用时：
+		Suite Setup   add school class   1   1班   60   suite_g7c1_classid
+		
+		Suite Teardown   delete_school_class   ${suite_g7c1_classid}
+		
+		注意：在RF中，第一次在传递参数的时候，由于这个变量还没有赋值，还不存在，所以不能用变量赋值的方式写  不能写成 ${}, 而只能按照python的写法，直接写变量名字  suite_g7c1_classid
+		
+		第二次在使用全局变量的时候，由于已经在python中生成了这个RF的全局变量 suite_g7c1_classid,所以要写成${}的格式。
+***这种用法非常常见，引起重视！！！***
+在套件的初始化中，所得到的数据，后续的测试中要使用到，需要使用这种 全局变量的做法。推荐使用。
+
+	--选择在哪里存放用例的时候，最好不要去修改数据环境，以免改不回来了。
+	
+	--如果发现和预期不符，用手工测试检查一下，然后抓包看一下。
+	
+	--需要构建一个不存在的id时，可以写一个非常大的值，一般被取到的几率为0。可以不用刻意去做随机值。
+		
+	
+	
+	

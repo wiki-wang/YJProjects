@@ -1,0 +1,26 @@
+项目实战1-下
+
+主要功能：
+在线作业：
+同步课学习：
+统计分析：
+
+管理功能：
+系统标签
+资源管理
+学校管理
+
+--requests 库中，
+url请求参数（get方法），可以用一个字典来实现，放在params参数中。
+params = {}
+requests.get(url, params=params)
+
+--接口返回的消息是一个  字符串。如果是json格式，可以用.json()方法，把这个字符串转换成python中的对象格式。
+
+--url请求中，如果是有消息体，参数用data。看请求消息体是什么格式。如果是urlencoded，那也是键值对，只是没有写在url中，而是放在消息体中，还是用字典的方式定义。
+payload={}
+requests.post(url, data=payload)
+
+--进去的时候是什么数据环境，出来的时候就应该是什么数据环境。
+
+evaluate RF表达式，后面的参数是python表达式，可以赋值给前面的变量

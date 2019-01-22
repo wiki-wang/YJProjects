@@ -1,0 +1,24 @@
+C:\Python37-32\Lib\site-packages\robot;
+
+例子：
+套件目录：  tc
+套件文件：  suite1，在目录tc下面
+用例：套件suite1 里面的用例 case001
+
+命令：
+robot --pythonpath . --test case001 tc
+
+执行用例case001，(case001可以换成*001，可以用通配符)，把tc作为查找的源，即从tc路径里面找用例case001
+--pythonpath .   的意思是 把 当前路径(.表示当前路径)加入到robotframework的模块搜索路径。
+
+整个命令的意思是，在当前路径，找tc，找到以后，从里面找用例 case001，执行case001。
+
+执行整个测试套件 suite1
+robot --pythonpath . --suite suite1 tc
+
+执行整个测试目录 tc
+robot --pythonpath . tc
+
+当前路径
+可以下载一个几兆的 total commander工具，直接可以进入到任意目录运行windows命令行，进入的路径，就是当前路径了。
+
